@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Регистрация — полная форма</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #666;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .form-panel {
+            padding: 30px;
+            display: none;
+        }
+
+        .form-panel.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .input-group label span {
+            color: #e74c3c;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #ddd;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        .message.success {
+            background: #efe;
+            color: #3a6;
+            border-left: 4px solid #3a6;
+        }
+
+        .dashboard {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .profile-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .profile-info {
+            margin: 12px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .profile-info strong {
+            width: 110px;
+            color: #555;
+        }
+
+        .profile-info span {
+            color: #333;
+            flex: 1;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .share-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .share-link {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .share-link input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 12px;
+            background: white;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app"></div>
+
+    <script>
+        let currentUser = null;
+        let currentFullUrl = window.location.href;
+
+        window.onload = function() {
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            } else {
+                showLoginPage();
+            }
+        };
+
+        function showLoginPage() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="header">
+                    <h1>Добро пожаловать</h1>
+                    <p>Войдите или создайте аккаунт</p>
+                </div>
+                <div class="tabs">
+                    <button class="tab active" onclick="showLoginForm()">Вход</button>
+                    <button class="tab" onclick="showRegisterForm()">Регистрация</button>
+                </div>
+                <div id="loginForm" class="form-panel active">
+                    <form onsubmit="login(event)">
+                        <div class="input-group">
+                            <label>📧 Электронная почта</label>
+                            <input type="email" id="loginEmail" placeholder="example@mail.ru" required>
+                        </div>
+                        <div class="input-group">
+                            <label>🔒 Пароль</label>
+                            <input type="password" id="loginPassword" placeholder="Введите пароль" required>
+                        </div>
+                        <button type="submit">Войти</button>
+                        <div id="loginMessage" class="message"></div>
+                    </form>
+                </div>
+                <div id="registerForm" class="form-panel">
+                    <form onsubmit="register(event)">
+                        <div class="input-group">
+                            <label>👤 ФИО <span>*</span></label>
+                            <input type="text" id="regFullname" placeholder="Иванов Иван Иванович" required>
+                        </div>
+                        <div class="input-group">
+                            <label>📧 Электронная почта <span>*</span></label>
+                            <input type="email" id="regEmail" placeholder="example@mail.ru" required>
+                        </div>
+                        <div class="input-group">
+                            <label>📱 Номер телефона <span>*</span></label>
+                            <input type="tel" id="regPhone" placeholder="+7 999 123-45-67" required>
+                        </div>
+                        <div class="input-group">
+                            <label>👤 Логин <span>*</span></label>
+                            <input type="text" id="regUsername" placeholder="Придумайте логин" required>
+                        </div>
+                        <div class="input-group">
+                            <label>🔒 Пароль <span>*</span></label>
+                            <input type="password" id="regPassword" placeholder="Не менее 4 символов" required>
+                        </div>
+                        <div class="input-group">
+                            <label>🔄 Повторите пароль <span>*</span></label>
+                            <input type="password" id="regPasswordConfirm" placeholder="Введите пароль ещё раз" required>
+                        </div>
+                        <button type="submit">Зарегистрироваться</button>
+                        <div id="registerMessage" class="message"></div>
+                    </form>
+                </div>
+                <footer>Все данные сохраняются на сервере</footer>
+            `;
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.add('active');
+            document.getElementById('registerForm').classList.remove('active');
+            const tabs = document.querySelectorAll('.tab');
+            tabs[0].classList.add('active');
+            tabs[1].classList.remove('active');
+            clearMessages();
+        }
+
+        function showRegisterForm() {
+            document.getElementById('registerForm').classList.add('active');
+            document.getElementById('loginForm').classList.remove('active');
+            const tabs = document.querySelectorAll('.tab');
+            tabs[1].classList.add('active');
+            tabs[0].classList.remove('active');
+            clearMessages();
+        }
+
+        function clearMessages() {
+            const loginMsg = document.getElementById('loginMessage');
+            const regMsg = document.getElementById('registerMessage');
+            if (loginMsg) loginMsg.innerHTML = '';
+            if (regMsg) regMsg.innerHTML = '';
+        }
+
+        async function register(event) {
+            event.preventDefault();
+            
+            const fullname = document.getElementById('regFullname').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regPasswordConfirm').value;
+
+            if (fullname.length < 5) {
+                showMessage('registerMessage', 'Введите полное ФИО', 'error');
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                showMessage('registerMessage', 'Введите корректный email', 'error');
+                return;
+            }
+
+            if (phone.length < 10) {
+                showMessage('registerMessage', 'Введите корректный номер телефона', 'error');
+                return;
+            }
+
+            if (username.length < 3) {
+                showMessage('registerMessage', 'Логин должен быть минимум 3 символа', 'error');
+                return;
+            }
+
+            if (password.length < 4) {
+                showMessage('registerMessage', 'Пароль должен быть минимум 4 символа', 'error');
+                return;
+            }
+
+            if (password !== confirm) {
+                showMessage('registerMessage', 'Пароли не совпадают', 'error');
+                return;
+            }
+
+            const response = await fetch('register.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ fullname, email, phone, username, password })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                showMessage('registerMessage', result.message, 'success');
+                setTimeout(() => {
+                    showLoginForm();
+                    document.getElementById('regFullname').value = '';
+                    document.getElementById('regEmail').value = '';
+                    document.getElementById('regPhone').value = '';
+                    document.getElementById('regUsername').value = '';
+                    document.getElementById('regPassword').value = '';
+                    document.getElementById('regPasswordConfirm').value = '';
+                }, 1500);
+            } else {
+                showMessage('registerMessage', result.message, 'error');
+            }
+        }
+
+        async function login(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            const response = await fetch('login.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                currentUser = result.user;
+                sessionStorage.setItem('currentUser', JSON.stringify(result.user));
+                showDashboard();
+            } else {
+                showMessage('loginMessage', result.message, 'error');
+            }
+        }
+
+        function showDashboard() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="dashboard">
+                    <div class="success-icon">✅</div>
+                    <h2 style="margin-bottom: 20px;">Добро пожаловать!</h2>
+                    
+                    <div class="profile-card">
+                        <h3>👤 Профиль пользователя</h3>
+                        <div class="profile-info">
+                            <strong>ФИО:</strong>
+                            <span>${escapeHtml(currentUser.fullname)}</span>
+                        </div>
+                        <div class="profile-info">
+                            <strong>📧 Почта:</strong>
+                            <span>${escapeHtml(currentUser.email)}</span>
+                        </div>
+                        <div class="profile-info">
+                            <strong>📱 Телефон:</strong>
+                            <span>${escapeHtml(currentUser.phone)}</span>
+                        </div>
+                        <div class="profile-info">
+                            <strong>👤 Логин:</strong>
+                            <span>${escapeHtml(currentUser.username)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="share-section">
+                        <p>🔗 Отправить ссылку другу:</p>
+                        <div class="share-link">
+                            <input type="text" id="shareUrl" value="${currentFullUrl}" readonly>
+                            <button class="copy-btn" onclick="copyToClipboard()">📋 Копировать ссылку</button>
+                        </div>
+                    </div>
+                    
+                    <button class="logout-btn" onclick="logout()">Выйти из аккаунта</button>
+                </div>
+                <footer>Все данные сохраняются на сервере</footer>
+            `;
+        }
+
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            currentUser = null;
+            showLoginPage();
+        }
+
+        function copyToClipboard() {
+            const input = document.getElementById('shareUrl');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            alert('✅ Ссылка скопирована!');
+        }
+
+        function showMessage(elementId, message, type) {
+            const msgDiv = document.getElementById(elementId);
+            msgDiv.innerHTML = message;
+            msgDiv.className = `message ${type}`;
+            setTimeout(() => {
+                if (msgDiv.innerHTML === message) {
+                    msgDiv.innerHTML = '';
+                    msgDiv.className = 'message';
+                }
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+    </script>
+</body>
+</html>
